@@ -249,6 +249,7 @@ var heartbeat = new Heartbeat();
 
 $(function() {
 
+  //Start getting messages for every request for 10k requests soon
   heartbeat.addMethod("Msgs", "getMessages", {
     lastId: heartbeatMethods.lastId
   }, "processMessages", 9999);
@@ -259,12 +260,9 @@ $(function() {
     userStatus: 1
   }, "statusChange", 1);
 
-  // heartbeat.startFunction();
-  heartbeat.startHeart(500);
-  $("#chatcontent").bind('created', function(e) {
 
-    console.log(e);
-  });
+  heartbeat.startHeart(500);
+
   $("#chatcontent").jqxTabs({
     theme: "classic",
     showCloseButtons: true,
@@ -287,24 +285,32 @@ $(function() {
 
   }).chosen();
 
-  $("#send-chat-btn").on("click", function() {
-    var selectedTab = $("#chatcontent").jqxTabs("selectedItem");
+  //get commonly use jquery variables to avoid recreation
+  var chatInput = $("#send-chat-msg");
+  var chatBtn = $("#send-chat-btn");
+
+
+  chatBtn.on("click", function() {
+    var chatMain = $("#chatcontent");
+    var selectedTab = chatMain.jqxTabs("selectedItem");
     var div = $("div.jqx-tabs-content-element:eq(" + selectedTab + ")").children();
     var str = $(div).attr("id");
-    var msg = $("#send-chat-msg").val();
+    var msg = chatInput.val();
     var id = parseInt(str.substr(4));
     var alias = $.globalVar.alias;
 
-    $(div).append('<span style=\'margin: 0; padding: 0; border: 0;\'>' + '<span style="color: #0000ff;">You: </span>' + msg + '</span><br />');
+    if(msg.replace(/ /g, "")) {
+      $(div).append('<span style=\'margin: 0; padding: 0; border: 0;\'>' + '<span style="color: #0000ff;">You: </span>' + msg + '</span><br />');
 
-    var chatMain = $("#chatcontent");
-    chatMain.scrollTop(chatMain.get(0).scrollHeight);
-    $("#send-chat-msg").val('');
-    heartbeat.addMethod("sent", "sendMessage", {
+
+      chatMain.scrollTop(chatMain.get(0).scrollHeight);
+      chatInput.val('');
+      heartbeat.addMethod("sent", "sendMessage", {
       msg: msg,
       to: id,
       alias: alias
-    }, "returnSent", 1);
+      }, "returnSent", 1);
+    }
   });
 
   $(window).bind('beforeunload', function() {
@@ -320,17 +326,19 @@ $(function() {
     });
   });
 
-  $("#send-chat-msg").on("focusin", function(e) {
+
+
+  chatInput.on("focusin", function(e) {
 
     $(window).on("keypress", function(key) {
       if (key.which === 13) {
         key.preventDefault
-        $("#send-chat-btn").click();
+        chatBtn.click();
       }
     });
   });
 
-  $("#send-chat-msg").on("focusout", function(e) {
+  chatInput.on("focusout", function(e) {
     $(window).off("keypress");
   });
 
