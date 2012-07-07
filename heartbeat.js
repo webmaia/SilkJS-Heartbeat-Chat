@@ -128,23 +128,23 @@ var HeartbeatMethods = function() {
    */
   this.statusChange = function(params) {
     if (!params.success) {
-      /*noty({
+      noty({
        text: '<strong>Failed</strong>, to update your status. There appears to be something wrong with chat at this moment',
        type: 'error',
        theme: 'noty_theme_twitter',
        layout: 'topCenter',
        speed: 1,
        force: true
-       });*/
+     });
     } else {
-      /*noty({
+      noty({
        text: '<strong>Successfully</strong>, changed chat status',
        type: 'success',
        theme: 'noty_theme_twitter',
        layout: 'centerRight',
        speed: 75,
        force: true
-       });*/
+     });
     }
   };
 
@@ -300,16 +300,22 @@ $(function() {
     var alias = $.globalVar.alias;
 
     if(msg.replace(/ /g, "")) {
-      $(div).append('<span style=\'margin: 0; padding: 0; border: 0;\'>' + '<span style="color: #0000ff;">You: </span>' + msg + '</span><br />');
 
+      var type = typeof heartbeat.methods['sent'];
 
-      chatMain.scrollTop(chatMain.get(0).scrollHeight);
-      chatInput.val('');
-      heartbeat.addMethod("sent", "sendMessage", {
-      msg: msg,
-      to: id,
-      alias: alias
-      }, "returnSent", 1);
+      if(type === "undefined" || type === "null" || type === null){
+        $(div).append('<span style=\'margin: 0; padding: 0; border: 0;\'>' + '<span style="color: #0000ff;">You: </span>' + msg + '</span><br />');
+
+        chatMain.scrollTop(chatMain.get(0).scrollHeight);
+        chatInput.val('');
+
+        heartbeat.addMethod("sent", "sendMessage", {
+          msg: msg,
+          to: id,
+          alias: alias
+        }, "returnSent", 1);
+
+      }
     }
   });
 
@@ -326,21 +332,19 @@ $(function() {
     });
   });
 
+  $("#send-chat-msg")
+    .on("focusin", function(e) {
 
-
-  chatInput.on("focusin", function(e) {
-
-    $(window).on("keypress", function(key) {
-      if (key.which === 13) {
-        key.preventDefault
-        chatBtn.click();
-      }
+      $(window).on("keypress", function(key) {
+        if (key.which === 13) {
+          key.preventDefault
+          $("#send-chat-btn").click();
+        }
+      });
+    })
+    .on("focusout", function(e) {
+      $(window).off("keypress");
     });
-  });
-
-  chatInput.on("focusout", function(e) {
-    $(window).off("keypress");
-  });
 
   var chatBtn = $("#chatbtn");
 
