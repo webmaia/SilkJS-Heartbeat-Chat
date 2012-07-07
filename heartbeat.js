@@ -236,7 +236,7 @@ var Heartbeat = function() {
           var key = data[x];
 
           heartbeatMethods[heartbeat.methods[x].callback](key);
-          if (heartbeat.methods[x].beats === 0) {
+          if (heartbeat.methods[x].beats < 0 || heartbeat.methods[x].beats === 0) {
             heartbeat.killMethod(x);
           }
         }
@@ -296,6 +296,9 @@ $(function() {
     var alias = $.globalVar.alias;
 
     $(div).append('<span style=\'margin: 0; padding: 0; border: 0;\'>' + '<span style="color: #0000ff;">You: </span>' + msg + '</span><br />');
+
+    var chatMain = $("#chatcontent");
+    chatMain.scrollTop(chatMain.get(0).scrollHeight);
     $("#send-chat-msg").val('');
     heartbeat.addMethod("sent", "sendMessage", {
       msg: msg,
