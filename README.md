@@ -8,6 +8,14 @@ limit the user to only 1 message for that duration. Ideally it would be customiz
 messages for those two seconds merged into on this reduces the amount of DB records and write the server has to do
 while still meeting the real time like effect. Since my default of 500ms is so fast I can use it to throttle the users
 ability to spam.</p>
+<h2>Dependencies</h2>
+  <ul>
+    <li>jQuery/jQuery UI</li>
+    <li>jQWidgets Tabs</li>
+    <li>Chosen Dropdown</li>
+    <li>Noty Notifications</li>
+  </ul>
+      
 <h2>Setup</h2>
 <p>It is currently setup for use with SilkJS by using the heartbeat.sjs file. Of course it would work with any back
 that can execute the commands given the data in the post.
