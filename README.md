@@ -11,6 +11,7 @@ ability to spam.</p>
 <h2>Dependencies</h2>
   <ul>
     <li>jQuery/jQuery UI</li>
+    <li>Twitter Bootstrap Buttons</li>
     <li>jQWidgets Tabs</li>
     <li>Chosen Dropdown</li>
     <li>Noty Notifications</li>
