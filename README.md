@@ -1,4 +1,13 @@
 <h1> Silk JS - Heartbeat Chat, Using short-polling and combining ajax requests and callbacks to provide</h1><hr />
+<h2>Interest</h2>
+<p>If there is interest I will spend some time and make the program more customizable otherwise I won't waste my time,
+so just let me know</p>
+<h2>Issues</h2>
+<p>There is an issue with the messaging system front end where if you were to set it to update every 2 seconds it would
+limit the user to only 1 message for that duration. Ideally it would be customizable in that the user would have their
+messages for those two seconds merged into on this reduces the amount of DB records and write the server has to do
+while still meeting the real time like effect. Since my default of 500ms is so fast I can use it to throttle the users
+ability to spam.</p>
 <h2>Setup</h2>
 <p>It is currently setup for use with SilkJS by using the heartbeat.sjs file. Of course it would work with any back
 that can execute the commands given the data in the post.
